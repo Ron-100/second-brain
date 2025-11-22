@@ -23,6 +23,8 @@
     --background: oklch(98% 0 0);
     --background-light: oklch(91% 0 0);
     --background-modal: #00000045;
+    --background-form: #292727;
+    --background-form-footer: #3a3939;
     --text-100: var(--color-zinc-500);
     --text-200: var(--color-zinc-700);
     --text-300: var(--color-zinc-900);
@@ -32,6 +34,8 @@
     --background-dark: oklch(22% 0 0);
     --background-dark-light: oklch(35% 0 0);
     --background-modal-dark: #ffffff30;
+    --background-form-dark: var(--color-zinc-200);
+    --background-form-footer-dark: var(--color-zinc-50);
     --text-dark-100: var(--color-zinc-50);
     --text-dark-200: var(--color-zinc-200);
     --text-dark-300: var(--color-zinc-300);
@@ -45,6 +49,7 @@
     --color-text-dark-100: var(--text-dark-100);
     --color-text-dark-200: var(--text-dark-200);
     --color-text-dark-300: var(--text-dark-300);
+    --color-text-denger: var(--color-red-500);
     /* header background */
     --color-header-background: var(--background);
     --color-header-background-dark: var(--background-dark);
@@ -58,9 +63,12 @@
     /* modal background */
     --color-modal-background: var(--background-modal);
     --color-modal-background-dark: var(--background-modal-dark);
+    /* form background */
+    --color-form-background: var(--background-form);
+    --color-form-footer-background: var(--background-form-footer);
+    --color-form-background-dark: var(--color-zinc-200);
+    --color-form-footer-background-dark: var(--color-zinc-50);
     /* home background */
     --color-home-background: var(--background);
     --color-home-background-dark: var(--background-dark);
 }
-
-

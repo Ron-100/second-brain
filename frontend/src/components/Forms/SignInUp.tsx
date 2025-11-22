@@ -39,7 +39,15 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
         reset();
     };
 
-    // Unified auth handler
+    const getAllErrors = (): string | null => {
+        const validationErrors: string[] = [];
+        if (errors.name?.message) {validationErrors.push(errors.name.message);}
+        if (errors.email?.message) {validationErrors.push(errors.email.message);}
+        if (errors.password?.message) {validationErrors.push(errors.password.message);}
+        if (loginError) {validationErrors.push(loginError);}
+        return validationErrors.length > 0 ? validationErrors.join('. ') : null;
+    };
+    
     const handleAuth = (token: string, decodedToken: CustomJwtPayload) => {
         localStorage.setItem('token', token);
         localStorage.setItem('user', decodedToken.name);
@@ -77,13 +85,13 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
     };
 
     return (
-        <div className={cn('z-[90] flex justify-center items-center')}>
-            <form onSubmit={handleSubmit(onSubmit)} className={cn('bg-[#262626] m-auto w-[280px] sm:w-[20em] md:w-[22em] rounded-lg border-2 border-[#2b2b2b] shadow-[1.95px_1.95px_2.6px_rgba(255,255,255,0.4)]')}>
-                <div className={cn('bg-card rounded-lg border-none p-8 bg-[#171717]')}>
-                    <h1 className={cn('text-xl text-white font-semibold')}>
+        <div className={cn('z-10 flex justify-center items-center')}>
+            <form onSubmit={handleSubmit(onSubmit)} className={cn('bg-form-background-dark dark:bg-form-footer-background m-auto w-[280px] sm:w-[20em] md:w-[22em] rounded-lg')}>
+                <div className={cn('bg-form-footer-background-dark dark:bg-form-background rounded-lg border-none p-8')}>
+                    <h1 className={cn('text-xl text-text-300 dark:text-text-dark-100 font-semibold')}>
                         {isSignUp ? 'Sign Up' : 'Sign In'}
                     </h1>
-                    <p className={cn('text-sm text-white my-2')}>
+                    <p className={cn('text-sm text-text-300 dark:text-text-dark-100 my-2')}>
                         {isSignUp ? 'Create your account' : 'Enter your email and password'}
                     </p>
 
@@ -91,41 +99,38 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         {isSignUp && (
                             <>
                                 <Input
+                                    className={cn('dark:text-text-dark-200 border-b-1 border-black/15 dark:border-white/15')}
                                     placeholder="Full Name"
                                     {...register('name', {
-                                        required: 'Name is required',
+                                        required: 'Name is required', 
                                     })}
                                 />
-                                {errors.name && <p className={cn('text-red-500 text-sm')}>{errors.name.message}</p>}
                             </>
                         )}
 
                         <Input
+                            className={cn('dark:text-text-dark-200 border-b-1 border-black/15 dark:border-white/15')}
                             placeholder="Email"
                             {...register('email', {
                                 required: 'Email is required',
-                                pattern: {
-                                    value: /^\S+@\S+$/i,
-                                    message: 'Invalid email address'
-                                }
                             })}
                         />
-                        {errors.email && <p className={cn('text-red-500 text-sm')}>{errors.email.message}</p>}
 
                         <Input
+                            className={cn('dark:text-text-dark-200 border-b-1 border-black/15 dark:border-white/15')}
                             placeholder="Password"
                             type="password"
                             {...register('password', {
                                 required: 'Password is required',
-                                minLength: {
-                                    value: 6,
-                                    message: 'Password must be at least 6 characters'
-                                }
                             })}
                         />
-                        {errors.password && <p className={cn('text-red-500 text-sm')}>{errors.password.message}</p>}
 
-                        {loginError && <p className={cn('text-red-500 text-sm')}>{loginError}</p>}
+                        {/* Here showing all consolated error */}
+                        {getAllErrors() && (
+                            <p className={cn('text-text-denger text-sm')}>
+                                {getAllErrors()}
+                            </p>
+                        )}
 
                         <div className={cn('w-full h-11 flex justify-center items-center')}>
                             <Button variant="twich" disabled={isLoading}>
@@ -139,11 +144,11 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                 </div>
 
                 <div className={cn('h-15 flex justify-center items-center px-2')}>
-                    <h1 className={cn('text-[0.8em] text-white')}>
+                    <h1 className={cn('text-[0.8em] dark:text-text-dark-100')}>
                         {isSignUp ? "Already have an account?" : "Don't have an account?"}
                         <span
                             onClick={toggleMode}
-                            className={cn('cursor-pointer font-bold ml-1 hover:text-gray-300 transition-colors')}>
+                            className={cn('cursor-pointer font-bold ml-1 dark:hover:text-text-dark-300 transition-colors')}>
                             {isSignUp ? 'Sign in!' : 'Sign up, it\'s free!'}
                         </span>
                     </h1>
