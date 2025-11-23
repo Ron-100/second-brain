@@ -66,7 +66,7 @@ const Header: React.FC = () => {
                             </button>
                         ) : (
                             <>
-                                <button onClick={() => setLoginIsOpen(true)} className={cn('font-[500] text-text-300 dark:text-text-dark-100 cursor-pointer')}>
+                                <button onClick={() => setLoginIsOpen(true)} className={cn('font-medium text-text-300 dark:text-text-dark-100 cursor-pointer')}>
                                     Login
                                 </button>
                                 <Modal isOpen={loginIsOpen} onClose={() => setLoginIsOpen(false)} onSubmit={() => setLoginIsOpen(false)}>
