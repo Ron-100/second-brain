@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IoIosMoon } from "react-icons/io";
-import { MdSunny } from 'react-icons/md';
+import { IoIosMoon, MdSunny } from '../icons'
 import { cn } from '../../utils';
 
 export type Theme = 'light' | 'dark';

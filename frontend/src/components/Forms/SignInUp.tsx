@@ -99,7 +99,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         {isSignUp && (
                             <>
                                 <Input
-                                    className={cn('dark:text-text-dark-200 border-b-1 border-black/15 dark:border-white/15')}
+                                    className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                                     placeholder="Full Name"
                                     {...register('name', {
                                         required: 'Name is required', 
@@ -109,7 +109,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         )}
 
                         <Input
-                            className={cn('dark:text-text-dark-200 border-b-1 border-black/15 dark:border-white/15')}
+                            className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                             placeholder="Email"
                             {...register('email', {
                                 required: 'Email is required',
@@ -117,7 +117,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         />
 
                         <Input
-                            className={cn('dark:text-text-dark-200 border-b-1 border-black/15 dark:border-white/15')}
+                            className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                             placeholder="Password"
                             type="password"
                             {...register('password', {

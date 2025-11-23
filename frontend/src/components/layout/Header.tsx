@@ -1,13 +1,10 @@
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../redux/store';
-import { CiMenuKebab } from "react-icons/ci";
-import Modal from '../ui/Modal';
-import { useState } from 'react';
-import SignInUp from '../Forms/SignInUp';
 import { logoutUser } from '../../redux/slices/AuthSlice';
-import { RxCross2 } from "react-icons/rx";
-import ThemeToggle from '../ui/ThemeToggle';
+import { Modal, ThemeToggle, SignInUp } from '../../components';
+import { CiMenuKebab, RxCross2 } from '../icons'
 import { motion } from 'framer-motion';
 import { cn } from '../../utils';
 
