@@ -1,5 +1,6 @@
-import { RiAddCircleLine } from "react-icons/ri";
-import { IoIosArrowDroprightCircle } from "react-icons/io";
+
+import React from "react";
+import { RiAddCircleLine, IoIosArrowDroprightCircle } from '../../components/icons';
 import { cn } from "../../utils";
 
 
