@@ -5,6 +5,7 @@ import ThemeToggle, { type Theme } from './ui/ThemeToggle';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 import SignInUp from './Forms/SignInUp'
+import ContentCreate from './Forms/ContentCreate'
 
 export {
     Button,
@@ -14,4 +15,5 @@ export {
     Header,
     Footer,
     SignInUp,
+    ContentCreate,
 };
