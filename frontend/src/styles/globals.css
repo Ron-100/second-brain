@@ -43,13 +43,22 @@
 
 @theme inline{
     /* text */
+    --color-text-0: var(--color-white);
     --color-text-100: var(--text-100);
     --color-text-200: var(--text-200);
     --color-text-300: var(--text-300);
+    --color-text-dark-900: var(--color-black);
     --color-text-dark-100: var(--text-dark-100);
     --color-text-dark-200: var(--text-dark-200);
     --color-text-dark-300: var(--text-dark-300);
     --color-text-denger: var(--color-red-500);
+    /* background */
+    --color-background: oklch(98% 0 0);
+    --color-background-dark: oklch(22% 0 0);
+    /* color */
+    --color-border-input: #2F2F2F;
+    --color-border-input-focus: #000000;
+    --color-border-input-focus-dark: #FFFFFF;
     /* header background */
     --color-header-background: var(--background);
     --color-header-background-dark: var(--background-dark);

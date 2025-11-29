@@ -101,6 +101,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                                 <Input
                                     className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                                     placeholder="Full Name"
+                                    variant="LoginInput"
                                     {...register('name', {
                                         required: 'Name is required', 
                                     })}
@@ -111,6 +112,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         <Input
                             className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                             placeholder="Email"
+                            variant="LoginInput"
                             {...register('email', {
                                 required: 'Email is required',
                             })}
@@ -119,6 +121,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         <Input
                             className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                             placeholder="Password"
+                            variant="LoginInput"
                             type="password"
                             {...register('password', {
                                 required: 'Password is required',
@@ -133,7 +136,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         )}
 
                         <div className={cn('w-full h-11 flex justify-center items-center')}>
-                            <Button variant="twich" disabled={isLoading}>
+                            <Button variant="LoginButton" disabled={isLoading}>
                                 {isLoading
                                     ? (isSignUp ? 'Creating...' : 'Signing in...')
                                     : (isSignUp ? 'Sign up' : 'Sign in')

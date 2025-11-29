@@ -10,6 +10,7 @@ type InputProps = {
     disable?: boolean;
     type?: string;
     className?:string;
+    variant: 'LoginInput';
 }
 
 
@@ -18,6 +19,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function InputField
         ref: ForwardedRef<HTMLInputElement>
     ) {
         const id = useId();
+
+        const variantClasses = {
+            LoginInput: 'w-full px-4 py-2 text-sm text-text-300 border-b border-border-input focus:outline-none focus:border-b-border-input-focus dark:focus:border-b-border-input-focus-dark transition-border duration-400',
+        }
 
         return <>
             <div className={cn("sm:col-span-3")}>
@@ -32,7 +37,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function InputField
                     onChange={onChange}
                     placeholder={placeholder}
                     disabled={disable}
-                    className={cn(`w-full text-[#A1A1A1] text-[0.9em] border-b border-[#2F2F2F] px-[12px] py-[7px] focus:outline-none focus:border-b-white transition-border duration-150 ${className}`)}
+                    className={cn(`${variantClasses.LoginInput} ${className}`)}
                     ref={ref}
                     {...props}
                     id={id}
