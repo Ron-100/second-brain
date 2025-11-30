@@ -4,7 +4,7 @@ import Express from "express";
 import errorHandler from "./middleware/errorMiddleware";
 import { requestLogger, errorLogger } from "./middleware/loggerMiddleware";
 import corsMiddleware from "./middleware/corsMiddleware";
-import { swaggerUi, swaggerSpec } from "./config/swagger";
+import { swaggerUi, swaggerSpec } from "./config/swagger.config";
 
 dotenv.config();
 const app = Express();

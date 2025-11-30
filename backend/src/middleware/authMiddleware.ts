@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { JWTPayload, verifyToken } from "../lib/jwt";
 import { apiError } from "../utils/apiError";
-import logger from "../config/logger";
+import logger from "../config/logger.config";
 
 // Extend Request interface to include user
 declare global {

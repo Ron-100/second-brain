@@ -1,11 +1,16 @@
 import { PrismaClient } from '@prisma/client'
-import logger from '../config/logger';
+import logger from '../config/logger.config';
 
 declare global {
   var prisma: PrismaClient | undefined
 }
 
 const prisma = globalThis.prisma ?? new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
   log: [
     { emit: 'event', level: 'query' },
     { emit: 'event', level: 'error' },

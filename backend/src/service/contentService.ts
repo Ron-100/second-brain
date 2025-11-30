@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { apiError } from "../utils/apiError";
 import { repositoryWrapper } from "../repository/repositoryWrapper";
-import logger from "../config/logger";
+import logger from "../config/logger.config";
 import { ContentRegisterRequest, ContentResponse, ContentResponseWithRange } from "../model/contentModel";
 
 class ContentService {
@@ -66,7 +66,7 @@ class ContentService {
 
         const user = await this.getCurrentUser(req.uniqueId);
 
-        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id});
+        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id });
         if (!content) {
             logger.warn('Content retrieval failed: Content not found', { contentId });
             throw new apiError("Content not found", 404);
@@ -159,7 +159,7 @@ class ContentService {
 
         const user = await this.getCurrentUser(req.uniqueId);
 
-        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id});
+        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id });
         if (!content) {
             logger.warn('Content deletion failed: Content not available', { contentId });
             throw new apiError("Content not available", 404);
@@ -182,17 +182,17 @@ class ContentService {
     async updateContent(req: Request & { uniqueId?: any }): Promise<ContentResponse> {
         const contentId = Number(req.params.id);
         const newContent = req.body;
-        
+
         const user = await this.getCurrentUser(req.uniqueId);
 
         logger.info('Content update attempt', { contentId, userId: user.id });
-        
-        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id});
+
+        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id });
         if (!content) {
             logger.warn('Content update failed: Content not found', { contentId });
             throw new apiError("Content not found", 404);
         }
-        
+
         // Update the content with new data
         const updatedContent = await repositoryWrapper.contentRepository.update(contentId, {
             title: newContent.title || content.title,

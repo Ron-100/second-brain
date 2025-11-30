@@ -2,7 +2,7 @@ import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 import { apiError } from "../utils/apiError";
 import { ApiResponse } from "../utils/apiResponse";
 import { ZodError } from "zod";
-import logger from "../config/logger";
+import logger from "../config/logger.config";
 
 const errorHandler: ErrorRequestHandler = (err, req: Request, res: Response, next: NextFunction) => {
     // Log the error

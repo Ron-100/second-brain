@@ -1,5 +1,5 @@
 import app from "./app";
-import logger from "./config/logger";
+import logger from "./config/logger.config";
 
 const PORT = process.env.BACKEND_PORT || 3000;
 

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { apiError } from "../utils/apiError";
-import logger from "../config/logger";
+import logger from "../config/logger.config";
 
 export interface JWTPayload {
     name: string;
@@ -30,10 +30,10 @@ export const verifyToken = async (token: string): Promise<JWTPayload> => {
         if (error instanceof jwt.TokenExpiredError) {
             logger.warn('Token expired');
             throw new apiError('Token expired', 401);
-        } else if (error instanceof jwt.JsonWebTokenError){
+        } else if (error instanceof jwt.JsonWebTokenError) {
             logger.warn('Invalid token');
             throw new apiError('Invalid token', 401);
-        } else{
+        } else {
             logger.warn('Token verification failed');
             throw new apiError('Token verification failed', 401);
         }

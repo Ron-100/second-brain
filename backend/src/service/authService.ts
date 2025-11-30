@@ -3,7 +3,7 @@ import { createToken, verifyToken } from "../lib/jwt";
 import { apiError } from "../utils/apiError";
 import { UserLoginResponse, UserRegisterRequest, UserLoginRequest, UserDetailsResponse } from "../model/userModel";
 import { repositoryWrapper } from "../repository/repositoryWrapper";
-import logger from "../config/logger";
+import logger from "../config/logger.config";
 
 class AuthService {
     constructor(userData: Request) {
@@ -69,9 +69,9 @@ class AuthService {
         const decoded = await verifyToken(token);
         // Fetch all data from the database and send 
 
-        
+
         return {
-            name : decoded.name,
+            name: decoded.name,
             email: "test@email.com", // TODO: get email from the database
             totalLinks: 16, // TODO: get total links from the database
             totalSharedLinks: 3, // TODO: get total shared links from the database
