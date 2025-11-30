@@ -5,7 +5,7 @@ import { Modal, ContentCreate } from "../../components";
 
 
 const Dashboard: React.FC = () => {
-    const [loginIsOpen, setLoginIsOpen] = useState(false);
+    const [createContentIsOpen, setCreateContentIsOpen] = useState(false);
     return (
         <>
             <div className={cn('m-auto max-w-[1536px] w-full min-h-screen h-full flex justify-center items-center')}>
@@ -16,10 +16,10 @@ const Dashboard: React.FC = () => {
                     </div>
                     <hr className={cn('text-[#898989] w-[250px] sm:w-[100px] sm:block sm:rotate-90')} />
                     <div>
-                        <RiAddCircleLine className={cn(' text-[#898989] text-[5em]')} onClick={() => setLoginIsOpen(true)} />
+                        <RiAddCircleLine className={cn(' text-[#898989] text-[5em]')} onClick={() => setCreateContentIsOpen(true)} />
                     </div>
-                    <Modal isOpen={loginIsOpen} onClose={() => setLoginIsOpen(false)} onSubmit={() => setLoginIsOpen(false)}>
-                        <ContentCreate onSuccess={() => setLoginIsOpen(false)} />
+                    <Modal isOpen={createContentIsOpen} onClose={() => setCreateContentIsOpen(false)} onSubmit={() => setCreateContentIsOpen(false)}>
+                        <ContentCreate onSuccess={() => setCreateContentIsOpen(false)} />
                     </Modal>
                 </div>
             </div>

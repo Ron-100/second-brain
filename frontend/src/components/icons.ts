@@ -5,6 +5,7 @@ import { MdSunny } from 'react-icons/md';
 import { RiAddCircleLine } from "react-icons/ri";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+import { MdCreateNewFolder } from "react-icons/md";
 
 
 export {
@@ -15,4 +16,5 @@ export {
     RiAddCircleLine,
     IoIosArrowDroprightCircle,
     IoIosArrowDown,
+    MdCreateNewFolder,
 };

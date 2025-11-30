@@ -3,13 +3,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../redux/store';
 import { logoutUser } from '../../redux/slices/AuthSlice';
-import { Modal, ThemeToggle, SignInUp } from '../../components';
-import { CiMenuKebab, RxCross2 } from '../icons'
+import { Modal, ThemeToggle, SignInUp, ContentCreate } from '../../components';
+import { CiMenuKebab, RxCross2, MdCreateNewFolder } from '../icons'
 import { motion } from 'framer-motion';
 import { cn } from '../../utils';
 
 const Header: React.FC = () => {
     const [loginIsOpen, setLoginIsOpen] = useState(false);
+    const [createContentIsOpen, setCreateContentIsOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
@@ -56,6 +57,12 @@ const Header: React.FC = () => {
                 )}
 
                 <div id="auth-items" className={cn('flex items-center gap-4')}>
+                    <div onClick={() => setCreateContentIsOpen(true)}  className={cn('rounded-full py-2 px-4 bg-amber-400 cursor-pointer')}>
+                        <MdCreateNewFolder className={cn('text-white')}/>
+                    </div>
+                    <Modal isOpen={createContentIsOpen} onClose={() => setCreateContentIsOpen(false)} onSubmit={() => setCreateContentIsOpen(false)}>
+                        <ContentCreate onSuccess={() => setCreateContentIsOpen(false)} />
+                    </Modal>
                     <div>
                         <ThemeToggle />
                     </div>
