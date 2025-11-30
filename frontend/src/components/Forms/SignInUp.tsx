@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Input } from '../../components';
+import { Button, Input, LoadingSpinner } from '../../components';
 import { login, signup } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -99,7 +99,6 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         {isSignUp && (
                             <>
                                 <Input
-                                    className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                                     placeholder="Full Name"
                                     variant="LoginInput"
                                     {...register('name', {
@@ -110,7 +109,6 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         )}
 
                         <Input
-                            className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                             placeholder="Email"
                             variant="LoginInput"
                             {...register('email', {
@@ -119,7 +117,6 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         />
 
                         <Input
-                            className={cn('dark:text-text-dark-200 border-b border-black/15 dark:border-white/15')}
                             placeholder="Password"
                             variant="LoginInput"
                             type="password"
@@ -136,9 +133,16 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         )}
 
                         <div className={cn('w-full h-11 flex justify-center items-center')}>
-                            <Button variant="LoginButton" disabled={isLoading}>
+                            <Button 
+                                variant="LoginButton" 
+                                disabled={isLoading}>
                                 {isLoading
-                                    ? (isSignUp ? 'Creating...' : 'Signing in...')
+                                    ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <LoadingSpinner size="sm" />
+                                            {isSignUp ? 'Creating...' : 'Signing in...'}
+                                        </span>
+                                    )
                                     : (isSignUp ? 'Sign up' : 'Sign in')
                                 }
                             </Button>

@@ -6,6 +6,8 @@ import Header from './layout/Header';
 import Footer from './layout/Footer';
 import SignInUp from './Forms/SignInUp'
 import ContentCreate from './Forms/ContentCreate'
+import LoadingSpinner from './ui/LoadingSpinner';
+import Select from './ui/Select';
 
 export {
     Button,
@@ -16,4 +18,6 @@ export {
     Footer,
     SignInUp,
     ContentCreate,
+    LoadingSpinner,
+    Select,
 };

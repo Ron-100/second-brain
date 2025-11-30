@@ -4,6 +4,7 @@ import { IoIosMoon } from "react-icons/io";
 import { MdSunny } from 'react-icons/md';
 import { RiAddCircleLine } from "react-icons/ri";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 
 
 export {
@@ -13,4 +14,5 @@ export {
     MdSunny,
     RiAddCircleLine,
     IoIosArrowDroprightCircle,
+    IoIosArrowDown,
 };
