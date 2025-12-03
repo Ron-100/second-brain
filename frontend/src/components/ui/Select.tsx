@@ -3,7 +3,7 @@ import { cn } from '../../utils';
 import { IoIosArrowDown } from '../icons';
 
 export type SelectOption = {
-    value: string;
+    value: number;
     label: string;
 };
 

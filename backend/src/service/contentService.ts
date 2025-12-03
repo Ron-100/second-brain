@@ -22,8 +22,8 @@ class ContentService {
     async registerContent(req: Request & { uniqueId?: any }): Promise<ContentResponse> {
         const request: ContentRegisterRequest = req.body;
         // TODO check with the link id after create link serice.
-        logger.info('Content registration attempt', { uniqueId: request.uniqueId, title: request.title, content: request.content, url: request.url, tagId: request.tagId, linkId: request.linkId });
-        const user = await this.getCurrentUser(request.uniqueId);
+        logger.info('Content registration attempt', { uniqueId: req.uniqueId, title: request.title, content: request.content, url: request.url, tagId: request.tagId, linkId: request.linkId });
+        const user = await this.getCurrentUser(req.uniqueId);
 
         const isUniqueIdExist = await repositoryWrapper.contentRepository.findContent({ uniqueId: request.uniqueId });
         if (isUniqueIdExist) {

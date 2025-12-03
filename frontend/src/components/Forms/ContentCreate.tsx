@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Button, LoadingSpinner, Select } from "../index";
-import { cn } from "../../utils";
+import { cn, type StandardErrorResponse } from "../../utils";
+import { createContent } from "../../services/contentService";
 
 interface ContentCreateProps {
     onSuccess?: () => void;
@@ -11,26 +12,47 @@ type FormData = {
     title: string;
     content: string;
     url: string;
-    tag: string;
+    tagId: string;
 };
 
 const ContentCreate: React.FC<ContentCreateProps> = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
+    const [createContentError, setCreateContentError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+
     const typeOptions = [
-        { value: "video", label: "Video" },
-        { value: "post", label: "Article / Post" },
-        { value: "links", label: "Link" },
-        { value: "doc", label: "Document" },
+        { value: 1, label: "Video" },
+        { value: 2, label: "Article / Post" },
+        { value: 3, label: "Link" },
+        { value: 4, label: "Document" },
     ];
 
+    const getAllErrors = (): string | null => {
+        const validationErrors: string[] = [];
+        if (errors.title?.message) { validationErrors.push(errors.title.message); }
+        if (errors.content?.message) { validationErrors.push(errors.content.message); }
+        if (errors.url?.message) { validationErrors.push(errors.url.message); }
+        if (errors.tagId?.message) { validationErrors.push(errors.tagId.message); }
+        if (createContentError) { validationErrors.push(createContentError); }
+        return validationErrors.length > 0 ? validationErrors.join('. ') : null;
+    };
+
     const onSubmit = async (data: FormData) => {
-        // need to connect with api call. TODO
-        console.log(data);
         setIsLoading(true);
-        setTimeout(() => {
+        setCreateContentError(null);
+        // NEED TO PROTECT ROUTE AND FOCUS TO REMOVE STRING
+        try {
+            await createContent({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
+        }
+        catch (error: unknown) {
+            const apiError = error as StandardErrorResponse;
+            const errorMessage = apiError.data?.message || 'Failed to create content';
+            const errorDetails = apiError.data?.errors;
+            setCreateContentError(errorDetails ? `${errorMessage}: ${errorDetails}` : errorMessage);
+        }
+        finally {
             setIsLoading(false);
-        }, 2000);
+        }
         reset();
     };
 
@@ -52,7 +74,6 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
                             variant="ContentCreateInput"
                             {...register('title', { required: 'Title is required' })}
                         />
-                        {errors.title && <p className="text-xs text-red-500 ml-1">{errors.title.message}</p>}
                     </div>
 
                     <div className="space-y-1">
@@ -62,7 +83,6 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
                             variant="ContentCreateInput"
                             {...register('content', { required: 'Content is required' })}
                         />
-                        {errors.content && <p className="text-xs text-red-500 ml-1">{errors.content.message}</p>}
                     </div>
 
                     <div className="space-y-1">
@@ -72,7 +92,6 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
                             variant="ContentCreateInput"
                             {...register('url', { required: 'URL is required' })}
                         />
-                        {errors.url && <p className="text-xs text-red-500 ml-1">{errors.url.message}</p>}
                     </div>
 
                     <div className="space-y-1">
@@ -81,11 +100,17 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
                                 label="TYPE"
                                 options={typeOptions}
                                 variant="ContentCreateSelect"
-                                {...register('tag')}
+                                {...register('tagId', { required: 'Tag is required' })}
                             />
                         </div>
                     </div>
                 </div>
+
+                {getAllErrors() && (
+                    <p className={cn('text-text-denger text-sm')}>
+                        {getAllErrors()}
+                    </p>
+                )}
 
                 <div className="pt-2">
                     <Button
