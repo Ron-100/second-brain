@@ -72,28 +72,6 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
         }
     };
 
-    // const onSubmit = async (data: FormData) => {
-    //     setIsLoading(true);
-    //     setLoginError(null);
-
-    //     try {
-    //         const response = isSignUp
-    //             ? await signup({ ...data, name: data.name!, uniqueId: crypto.randomUUID() })
-    //             : await login(data);
-
-    //         const decodedToken = jwtDecode<CustomJwtPayload>(response.data.token);
-    //         handleAuth(response.data.token, decodedToken);
-
-    //     } catch (error: unknown) {
-    //         const apiError = error as StandardErrorResponse;
-    //         const errorMessage = apiError.data?.message || `${isSignUp ? 'Sign up' : 'Login'} failed`;
-    //         const errorDetails = apiError.data?.errors;
-    //         setLoginError(errorDetails ? `${errorMessage}: ${errorDetails}` : errorMessage);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
-
     return (
         <div className={cn('z-10 flex justify-center items-center')}>
             <form onSubmit={handleSubmit(onSubmit)} className={cn('bg-form-background-dark dark:bg-form-footer-background m-auto w-[280px] sm:w-[20em] md:w-[22em] rounded-lg')}>

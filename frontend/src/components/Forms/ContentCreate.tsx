@@ -35,10 +35,7 @@ const ContentCreate: React.FC<ContentCreateProps> = ({ onSuccess }) => {
 
     const onSubmit = async (data: FormData) => {
         setCreateContentError(null);
-        // NEED TO CONVERT ALL SERVICES TO RTK QUERY AND NEED TO LEARN
-        // NEED TO PROTECT ROUTE AND FOCUS TO REMOVE STRING
         try {
-            // await createContent({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
             await createContent({
                 uniqueId: crypto.randomUUID(),
                 title: data.title,
@@ -47,8 +44,6 @@ const ContentCreate: React.FC<ContentCreateProps> = ({ onSuccess }) => {
                 tagId: Number(data.tagId),
             }).unwrap();
             onSuccess?.();
-
-            // console.log({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
         }
         catch (error: unknown) {
             const apiError = handleApiError(error, 'Failed to create content');
