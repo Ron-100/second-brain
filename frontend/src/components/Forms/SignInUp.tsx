@@ -4,7 +4,7 @@ import { Button, Input, LoadingSpinner } from '../../components';
 import { useLoginMutation, useSignupMutation } from '../../redux/api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
-import type { StandardErrorResponse } from '../../utils';
+import { handleApiError } from '../../utils';
 import { cn } from '../../utils';
 import { saveAuthStorage } from '../../helper/authHelpers';
 
@@ -67,10 +67,8 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
             handleAuth(response.data.token, decodedToken);
 
         } catch (error: unknown) {
-            const apiError = error as StandardErrorResponse;
-            const errorMessage = apiError.data?.message || `${isSignUp ? 'Sign up' : 'Login'} failed`;
-            const errorDetails = apiError.data?.errors;
-            setLoginError(errorDetails ? `${errorMessage}: ${errorDetails}` : errorMessage);
+            const apiError = handleApiError(error, `${isSignUp ? 'Sign up' : 'Login'} failed`);
+            setLoginError(apiError.data.errors ? `${apiError.data.message}: ${apiError.data.errors}` : apiError.data.message);
         }
     };
 

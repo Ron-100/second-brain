@@ -37,7 +37,6 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
         setIsLoading(true);
         setCreateContentError(null);
         // NEED TO CONVERT ALL SERVICES TO RTK QUERY AND NEED TO LEARN
-        // NEED TO IMPLEMENT CONTENT SLICE AND ACTIONS TO HANDLE THE STATE OF THE CONTENT
         // NEED TO PROTECT ROUTE AND FOCUS TO REMOVE STRING
         try {
             // await createContent({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });

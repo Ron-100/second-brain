@@ -34,7 +34,7 @@ export const authApi = baseApi.injectEndpoints({
         }),
         signup: builder.mutation<AuthResponse, SignupRequest>({
             query: (credentials) => ({
-                url: '/signup',
+                url: '/register',
                 method: 'POST',
                 body: credentials,
             }),
