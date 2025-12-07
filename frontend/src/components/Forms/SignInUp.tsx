@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Input, LoadingSpinner } from '../../components';
-import { login, signup } from '../../services/authService';
+import { useLoginMutation, useSignupMutation } from '../../redux/api/authApi';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setAuth } from '../../redux/slices/AuthSlice';
-import type { AppDispatch } from '../../redux/store';
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
 import type { StandardErrorResponse } from '../../utils';
 import { cn } from '../../utils';
+import { saveAuthStorage } from '../../helper/authHelpers';
 
 interface CustomJwtPayload extends JwtPayload {
     name: string;
@@ -28,10 +26,13 @@ type FormData = {
 const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
     const [isSignUp, setIsSignUp] = useState(false);
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
-    const [isLoading, setIsLoading] = useState(false);
     const [loginError, setLoginError] = useState<string | null>(null);
     const navigate = useNavigate();
-    const dispatch = useDispatch<AppDispatch>();
+
+    // RTK Query hooks
+    const [login, { isLoading: isLoginLoading }] = useLoginMutation();
+    const [signup, { isLoading: isSignupLoading }] = useSignupMutation();
+    const isLoading = isLoginLoading || isSignupLoading;
 
     const toggleMode = () => {
         setIsSignUp(!isSignUp);
@@ -49,27 +50,18 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
     };
     
     const handleAuth = (token: string, decodedToken: CustomJwtPayload) => {
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', decodedToken.name);
-        localStorage.setItem('uniqueId', decodedToken.uniqueId);
-        dispatch(setAuth({
-            status: true,
-            token,
-            user: decodedToken.name,
-            uniqueId: decodedToken.uniqueId
-        }));
+        saveAuthStorage(token, decodedToken.name, decodedToken.uniqueId);
         onSuccess?.();
         navigate('/dashboard');
     };
 
     const onSubmit = async (data: FormData) => {
-        setIsLoading(true);
         setLoginError(null);
 
         try {
             const response = isSignUp
-                ? await signup({ ...data, name: data.name!, uniqueId: crypto.randomUUID() })
-                : await login(data);
+                ? await signup({ name: data.name!, email: data.email, password: data.password }).unwrap()
+                : await login({ email: data.email, password: data.password }).unwrap();
 
             const decodedToken = jwtDecode<CustomJwtPayload>(response.data.token);
             handleAuth(response.data.token, decodedToken);
@@ -79,10 +71,30 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
             const errorMessage = apiError.data?.message || `${isSignUp ? 'Sign up' : 'Login'} failed`;
             const errorDetails = apiError.data?.errors;
             setLoginError(errorDetails ? `${errorMessage}: ${errorDetails}` : errorMessage);
-        } finally {
-            setIsLoading(false);
         }
     };
+
+    // const onSubmit = async (data: FormData) => {
+    //     setIsLoading(true);
+    //     setLoginError(null);
+
+    //     try {
+    //         const response = isSignUp
+    //             ? await signup({ ...data, name: data.name!, uniqueId: crypto.randomUUID() })
+    //             : await login(data);
+
+    //         const decodedToken = jwtDecode<CustomJwtPayload>(response.data.token);
+    //         handleAuth(response.data.token, decodedToken);
+
+    //     } catch (error: unknown) {
+    //         const apiError = error as StandardErrorResponse;
+    //         const errorMessage = apiError.data?.message || `${isSignUp ? 'Sign up' : 'Login'} failed`;
+    //         const errorDetails = apiError.data?.errors;
+    //         setLoginError(errorDetails ? `${errorMessage}: ${errorDetails}` : errorMessage);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
 
     return (
         <div className={cn('z-10 flex justify-center items-center')}>

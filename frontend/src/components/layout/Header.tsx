@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../redux/store';
-import { logoutUser } from '../../redux/slices/AuthSlice';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../../redux/store';
 import { Modal, ThemeToggle, SignInUp, ContentCreate } from '../../components';
 import { CiMenuKebab, RxCross2, MdCreateNewFolder } from '../icons'
 import { motion } from 'framer-motion';
 import { cn } from '../../utils';
+import { clearAuthStorage, isAuthenticated } from '../../helper/authHelpers';
+import { baseApi } from '../../redux/api/baseApi';
 
 const Header: React.FC = () => {
     const [loginIsOpen, setLoginIsOpen] = useState(false);
     const [createContentIsOpen, setCreateContentIsOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [status, setStatus] = useState(isAuthenticated());
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
-    const status = useSelector((state: RootState) => state.auth.status)
+    
     const navItems = [
         { name: "All Collection", path: "/dashboard/all", active: true },
         { name: "Social Post", path: "/dashboard/twitter", active: true},
@@ -22,10 +24,13 @@ const Header: React.FC = () => {
         { name: "Docs", path: "/dashboard/docs", active: true},
         { name: "Links", path: "/dashboard/links", active: true}
     ]
+
     const handelLogout = () => {
-        dispatch(logoutUser())
-        navigate('/')
-    }
+        clearAuthStorage();
+        dispatch(baseApi.util.resetApiState());
+        setStatus(false);
+        navigate('/');
+    };
 
     return (
         <>
@@ -77,7 +82,10 @@ const Header: React.FC = () => {
                                     Login
                                 </button>
                                 <Modal isOpen={loginIsOpen} onClose={() => setLoginIsOpen(false)} onSubmit={() => setLoginIsOpen(false)}>
-                                    <SignInUp onSuccess={() => setLoginIsOpen(false)} />
+                                    <SignInUp onSuccess={() => {
+                                        setLoginIsOpen(false);
+                                        setStatus(true);
+                                        }} />
                                 </Modal>
                             </>
                         )}

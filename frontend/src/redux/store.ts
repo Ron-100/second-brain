@@ -1,10 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authSlice } from "./slices";
-import { baseApi } from "./api";
+import { baseApi } from "./api/baseApi";
 
 const store = configureStore({
     reducer: {
-        auth: authSlice,
         // Add RTK Query tags reducer
         [baseApi.reducerPath]: baseApi.reducer,
     },
