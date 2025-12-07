@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Button, LoadingSpinner, Select } from "../index";
-import { cn, type StandardErrorResponse } from "../../utils";
+import { cn, handleApiError } from "../../utils";
 import { useGetTagsQuery } from "../../redux/api/tagsApi";
-// import { createContent } from "../../services/contentService";
+import { useCreateContentMutation } from "../../redux/api/contentApi";
 
 interface ContentCreateProps {
     onSuccess?: () => void;
@@ -16,11 +16,11 @@ type FormData = {
     tagId: string;
 };
 
-const ContentCreate: React.FC<ContentCreateProps> = () => {
+const ContentCreate: React.FC<ContentCreateProps> = ({ onSuccess }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
     const [createContentError, setCreateContentError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
     const { data, isLoading: tagsLoading } = useGetTagsQuery();
+    const [createContent, { isLoading }] = useCreateContentMutation();
     const tags = data?.data || [];
 
     const getAllErrors = (): string | null => {
@@ -34,24 +34,29 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
     };
 
     const onSubmit = async (data: FormData) => {
-        setIsLoading(true);
         setCreateContentError(null);
         // NEED TO CONVERT ALL SERVICES TO RTK QUERY AND NEED TO LEARN
         // NEED TO PROTECT ROUTE AND FOCUS TO REMOVE STRING
         try {
             // await createContent({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
-            console.log({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
+            await createContent({
+                uniqueId: crypto.randomUUID(),
+                title: data.title,
+                content: data.content,
+                url: data.url,
+                tagId: Number(data.tagId),
+            }).unwrap();
+            onSuccess?.();
+
+            // console.log({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
         }
         catch (error: unknown) {
-            const apiError = error as StandardErrorResponse;
-            const errorMessage = apiError.data?.message || 'Failed to create content';
-            const errorDetails = apiError.data?.errors;
-            setCreateContentError(errorDetails ? `${errorMessage}: ${errorDetails}` : errorMessage);
+            const apiError = handleApiError(error, 'Failed to create content');
+            setCreateContentError(apiError.data.errors ? `${apiError.data.message}: ${apiError.data.errors}` : apiError.data.message);
         }
         finally {
-            setIsLoading(false);
+            reset();
         }
-        reset();
     };
 
     return (
