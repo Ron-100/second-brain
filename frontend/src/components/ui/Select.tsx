@@ -1,15 +1,11 @@
 import React, { useId, forwardRef } from 'react';
 import { cn } from '../../utils';
 import { IoIosArrowDown } from '../icons';
-
-export type SelectOption = {
-    value: number;
-    label: string;
-};
+import type { TagResponse } from '../../services/tagsService';
 
 type SelectProps = {
     label?: string;
-    options: SelectOption[];
+    options: TagResponse['data'];
     variant?: 'default' | 'ContentCreateSelect';
     className?: string;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;
@@ -22,7 +18,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(({
     ...props
 }, ref) => {
     const id = useId();
-
+    const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     const baseSelectClasses = "w-full h-10 px-3 rounded-md text-sm outline-none transition-all cursor-pointer appearance-none";
 
     const variants = {
@@ -44,9 +40,10 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(({
                     className={cn(baseSelectClasses, variants[variant], className)}
                     {...props}
                 >
+                    <option value="" >Select {capitalize(label ?? '')}</option>
                     {options.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                            {opt.label}
+                        <option key={opt.id} value={opt.id}>
+                            {opt.name}
                         </option>
                     ))}
                 </select>

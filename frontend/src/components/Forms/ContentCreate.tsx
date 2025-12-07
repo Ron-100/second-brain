@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Button, LoadingSpinner, Select } from "../index";
 import { cn, type StandardErrorResponse } from "../../utils";
+import { useGetTagsQuery } from "../../redux/api/tagsApi";
 import { createContent } from "../../services/contentService";
 
 interface ContentCreateProps {
@@ -19,13 +20,8 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
     const [createContentError, setCreateContentError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-
-    const typeOptions = [
-        { value: 1, label: "Video" },
-        { value: 2, label: "Article / Post" },
-        { value: 3, label: "Link" },
-        { value: 4, label: "Document" },
-    ];
+    const { data, isLoading: tagsLoading } = useGetTagsQuery();
+    const tags = data?.data || [];
 
     const getAllErrors = (): string | null => {
         const validationErrors: string[] = [];
@@ -40,6 +36,8 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         setCreateContentError(null);
+        // NEED TO CONVERT ALL SERVICES TO RTK QUERY AND NEED TO LEARN
+        // NEED TO IMPLEMENT CONTENT SLICE AND ACTIONS TO HANDLE THE STATE OF THE CONTENT
         // NEED TO PROTECT ROUTE AND FOCUS TO REMOVE STRING
         try {
             await createContent({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
@@ -98,7 +96,7 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
                         <div className="relative">
                             <Select
                                 label="TYPE"
-                                options={typeOptions}
+                                options={tags}
                                 variant="ContentCreateSelect"
                                 {...register('tagId', { required: 'Tag is required' })}
                             />
@@ -115,7 +113,7 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
                 <div className="pt-2">
                     <Button
                         variant="LoginButton"
-                        disabled={isLoading}
+                        disabled={isLoading || tagsLoading}
                     >
                         {isLoading ? (
                             <span className="flex items-center justify-center gap-2">
