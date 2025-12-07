@@ -1,11 +1,15 @@
 import React, { useId, forwardRef } from 'react';
 import { cn } from '../../utils';
 import { IoIosArrowDown } from '../icons';
-import type { TagResponse } from '../../services/tagsService';
+
+type SelectOption = {
+    id: number | string;
+    name: string;
+};
 
 type SelectProps = {
     label?: string;
-    options: TagResponse['data'];
+    options: SelectOption[];
     variant?: 'default' | 'ContentCreateSelect';
     className?: string;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;

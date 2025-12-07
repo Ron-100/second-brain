@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Input, Button, LoadingSpinner, Select } from "../index";
 import { cn, type StandardErrorResponse } from "../../utils";
 import { useGetTagsQuery } from "../../redux/api/tagsApi";
-import { createContent } from "../../services/contentService";
+// import { createContent } from "../../services/contentService";
 
 interface ContentCreateProps {
     onSuccess?: () => void;
@@ -40,7 +40,8 @@ const ContentCreate: React.FC<ContentCreateProps> = () => {
         // NEED TO IMPLEMENT CONTENT SLICE AND ACTIONS TO HANDLE THE STATE OF THE CONTENT
         // NEED TO PROTECT ROUTE AND FOCUS TO REMOVE STRING
         try {
-            await createContent({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
+            // await createContent({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
+            console.log({ ...data, uniqueId: crypto.randomUUID(), tagId: Number(data.tagId) });
         }
         catch (error: unknown) {
             const apiError = error as StandardErrorResponse;
