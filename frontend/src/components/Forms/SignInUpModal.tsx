@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Input, LoadingSpinner } from '../../components';
+import { Button, Input, LoadingSpinner } from '..';
 import { useLoginMutation, useSignupMutation } from '../../redux/api/authApi';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode, type JwtPayload } from 'jwt-decode';

@@ -6,6 +6,10 @@ import { RiAddCircleLine } from "react-icons/ri";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdCreateNewFolder } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
+import { MdLink } from "react-icons/md";
+import { HiExternalLink } from "react-icons/hi";
 
 
 export {
@@ -17,4 +21,8 @@ export {
     IoIosArrowDroprightCircle,
     IoIosArrowDown,
     MdCreateNewFolder,
+    MdDelete,
+    MdEdit,
+    MdLink,
+    HiExternalLink,
 };

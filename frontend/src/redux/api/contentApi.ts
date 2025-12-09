@@ -102,7 +102,7 @@ export const contentApi = baseApi.injectEndpoints({
                 params: {
                     page,
                     limit,
-                    ...(tagId !== undefined && tagId > 0 && { tagId }),
+                    ...(tagId !== undefined && { tagId }),
                 },
             }),
             providesTags: ['Content'],
